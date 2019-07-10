@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     //myRef.setValue(editText.getText().toString());
                     myRef.push().setValue(message);
                     editText.setText(" ");
+                    
                     Log.d("message", "onClick: ");
                 }
             }

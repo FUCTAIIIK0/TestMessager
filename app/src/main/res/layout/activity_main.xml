@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/enter_text_hint"
-            android:inputType="textPersonName"/>
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/buttonSend"
