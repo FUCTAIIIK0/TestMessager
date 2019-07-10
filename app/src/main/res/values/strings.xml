@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TestMessager</string>
+    <string name="enter_text_hint">Enter text...</string>
+    <string name="send_button_name">Send</string>
 </resources>
