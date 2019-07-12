@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -25,7 +26,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -48,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     List<AuthUI.IdpConfig> providers;
     Button logout;
     Button login;
+    Button test;
+    TextView usernameTextView;
+    FirebaseUser user;
+    String username ="username";
     //Auth
 
 
@@ -57,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //Auth
         logout =findViewById(R.id.buttonLogout);
+        logout.setEnabled(false);
         login =findViewById(R.id.buttonLogin);
+        usernameTextView =findViewById(R.id.username);
         providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 logout.setEnabled(false);
+                                send.setEnabled(false);
+                                usernameTextView.setText("usernameTextView");
                                 showSignInOptions();
                                 Toast.makeText(MainActivity.this,"Logout",Toast.LENGTH_SHORT);
                             }
@@ -89,14 +97,26 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                logout.setEnabled(true);
+                send.setEnabled(true);
                 showSignInOptions();
             }
         });
+/*
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    //usernameTextView.setText(username);
+
+            }
+        });
+*/
         //Auth
         //Messager
         myRef.setValue("Message");
         final ArrayList<String> messages = new ArrayList<>();
         send = findViewById(R.id.buttonSend);
+        send.setEnabled(false);
         editText =findViewById(R.id.editText);
         recyclerView =findViewById(R.id.rectclerView);
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
@@ -180,7 +200,9 @@ public class MainActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (requestCode == RESULT_OK){
                 //Get user
-                FirebaseUser user =FirebaseAuth.getInstance().getCurrentUser();
+                 user =FirebaseAuth.getInstance().getCurrentUser();
+                 username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
+                Log.d("", "onActivityResult: ");
                 //Show email toast
                 Toast.makeText(this," "+user.getEmail(),Toast.LENGTH_SHORT);
                 logout.setEnabled(true);
