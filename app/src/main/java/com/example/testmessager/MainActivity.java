@@ -59,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         //Auth
         logout =findViewById(R.id.buttonLogout);
         logout.setEnabled(false);
         login =findViewById(R.id.buttonLogin);
         usernameTextView =findViewById(R.id.username);
+
         providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         });
 */
         //Auth
+
         //Messager
         myRef.setValue("Message");
         final ArrayList<String> messages = new ArrayList<>();
@@ -120,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         editText =findViewById(R.id.editText);
         recyclerView =findViewById(R.id.rectclerView);
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
+
         final DataAdapter dataAdapter = new DataAdapter(this,messages);
         recyclerView.setAdapter(dataAdapter);
         //Messager
@@ -200,9 +205,12 @@ public class MainActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (requestCode == RESULT_OK){
                 //Get user
-                 user =FirebaseAuth.getInstance().getCurrentUser();
-                 username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString();
-                Log.d("", "onActivityResult: ");
+
+                username = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+                runOnUiThread(() -> {
+                    Log.d("FirebaseAuth", "onActivityResult: ");
+                });
+
                 //Show email toast
                 Toast.makeText(this," "+user.getEmail(),Toast.LENGTH_SHORT);
                 logout.setEnabled(true);
