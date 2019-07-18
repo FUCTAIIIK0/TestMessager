@@ -127,12 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         final DataAdapter dataAdapter = new DataAdapter(this,messages);
         recyclerView.setAdapter(dataAdapter);
-        //Messager
 
-
-
-
-        //Messager
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
